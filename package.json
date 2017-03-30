@@ -1,0 +1,28 @@
+{
+  "name": "malta-browser-refresh",
+  "version": "1.0.0",
+  "description": "malta plugin to refresh automatically the browser when building relevant files",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedeghe/malta-browser-refresh.git"
+  },
+    "keywords": [
+    "malta",
+    "malta plugin",
+    "malta js browser refresh"
+  ],
+  "author": "Federico Ghedina <federico.ghedina@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fedeghe/malta-browser-refresh/issues"
+  },
+  "homepage": "https://github.com/fedeghe/malta-browser-refresh#readme",
+
+  "dependencies": {
+    "malta": ">=3.5.5"
+  },
+  "main": "index.js"
+}
