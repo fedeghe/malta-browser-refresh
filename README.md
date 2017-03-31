@@ -8,7 +8,8 @@
 This plugin can be used on: **.html** files and even on **.md** and **.pug** files after using the right plugin
 
 Options :   
-	- **files** : array containing te list of the files that whenever modified should trigger the browser refresh (the template html is included automatically)
+	- **files** : array containing te list of the files that whenever modified should trigger the browser refresh (the template html is included automatically)  
+    is possible to add simply '*' and all `<script>` and `<link>` file references will be added, in this case the `src` and `href` has to be relative (all starting with `http` or `//` will be skipped).
 
  **warning** : use this plugin only for development purposes
 

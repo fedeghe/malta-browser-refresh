@@ -1,6 +1,6 @@
 {
   "name": "malta-browser-refresh",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "malta plugin to refresh automatically the browser when building relevant files",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
