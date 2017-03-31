@@ -54,7 +54,6 @@ function malta_browser_refresh(o, options) {
 			tmp && isRelative(tmp[1])
 				&& options.files.push(tmp[1]);
 		}
-		console.log(options.files)
 	}
 
 	try {
