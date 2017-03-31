@@ -9,6 +9,7 @@ var Malta = require('malta'),
 	})();
 
 function malta_browser_refresh(o, options) {
+	options = options || {};
 	if (!('files' in options)) {
 		options.files = [];
 	}
