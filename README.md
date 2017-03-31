@@ -16,7 +16,7 @@ Options :
 
 Sample usage:  
 ```
-malta app/source/index.html public -plugins=malta-browser-refresh[files:[\"js/script.js\",\"css/style.css\"]]
+malta app/source/index.html public -plugins=malta-browser-refresh[files:[\"*\"]]
 ```
 or in the .json file :
 ```
@@ -28,7 +28,7 @@ var Malta = require('malta');
 Malta.get().check([
     'app/source/index.html',
     'public',
-    '-plugins=malta-browser-refresh[\"js/script.js\",\"css/style.css\"]',
+    '-plugins=malta-browser-refresh[files:\"*\"]',
     '-options=showPath:false,watchInterval:500,verbose:0'
     ]).start(function (o) {
         var s = this;
