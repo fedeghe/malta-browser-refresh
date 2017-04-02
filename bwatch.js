@@ -1,6 +1,4 @@
-
 (function () {
-	
 	var http = require('http'),
 		fs = require('fs'),
 		ttr = 1000,
@@ -17,17 +15,14 @@
 	Bwatch.prototype.start = function () {
 		var BW = this;
 		http.createServer(function (request, response) {
+			
 			response.writeHead(200, {
 				'Content-Type': 'application/javascript',
 				'Access-Control-Allow-Origin' : '*'
 			});
-
-			if (BW.check()) {
-				response.end('document.location.reload();');
-			} else {
-				response.end(';');
-			}
-
+			BW.check(function (res) {
+				response.end(res ? 'document.location.reload();' : ';');
+			});
 		}).listen(srvPort);
 	};
 	Bwatch.prototype.addFile = function (path) {
@@ -39,7 +34,7 @@
 		}
 	};
 
-	Bwatch.prototype.check = function () {
+	Bwatch.prototype.check = function (cb) {
 		var res = false,
 			BW = this,
 			path,
@@ -51,10 +46,10 @@
 					BW.files[path] = getMtime(tmp);
 				}, ttr);
 				console.log('Malta-browser-refresh ['+ ('modified ' + path).white() + ']')
-				return true;
+				res = true;
 			}
 		}
-		return res;
+		cb(res);
 	};
 
 	Bwatch.script = `(function () {
@@ -67,10 +62,5 @@
 			document.body.appendChild(s);
 		}, ${ttr});
 	})()`;
-
-
 	module.exports = Bwatch;
 })();
-
-
-

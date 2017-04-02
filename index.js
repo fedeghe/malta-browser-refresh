@@ -1,5 +1,5 @@
 var Malta = require('malta'),
-	path = require('path')
+	path = require('path'),
 	fs = require('fs'),
 	bWatch = require('./bwatch.js'),
 	getbWatch = (function () {
