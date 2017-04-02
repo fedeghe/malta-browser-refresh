@@ -1,5 +1,5 @@
 var Malta = require('malta'),
-	path = require('path'),
+	path = require('path')
 	fs = require('fs'),
 	bWatch = require('./bwatch.js'),
 	getbWatch = (function () {
@@ -23,6 +23,7 @@ function malta_browser_refresh(o, options) {
 		msg,
 		pluginName = path.basename(path.dirname(__filename)),
 		tplPath = path.dirname(self.tplPath),
+		baseFolder = path.dirname(o.name),
 		fileI = 0,
 		fileNum,
 		bW = getbWatch();
@@ -48,12 +49,12 @@ function malta_browser_refresh(o, options) {
 		for (i = 0, l = scripts.length; i < l; i++) {
 			tmp = scripts[i].match(rex.js.inner);
 			tmp && isRelative(tmp[1])
-				&& options.files.push(tmp[1])
+				&& options.files.push(path.resolve(baseFolder, tmp[1]));
 		}
 		for (i = 0, l = styles.length; i < l; i++) {
 			tmp = styles[i].match(rex.css.inner);
 			tmp && isRelative(tmp[1])
-				&& options.files.push(tmp[1]);
+				&& options.files.push(path.resolve(baseFolder, tmp[1]));
 		}
 	}
 
