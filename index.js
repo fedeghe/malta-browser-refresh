@@ -1,3 +1,10 @@
+/**
+ * CHANGELOG
+ * 
+ * 1.0.6
+ * the srv port is not fixed to be 1234, then more than one instance can run at once
+ * even absolute urls are watched
+ */
 var Malta = require('malta'),
 	path = require('path')
 	fs = require('fs'),
@@ -10,13 +17,10 @@ var Malta = require('malta'),
 
 function malta_browser_refresh(o, options) {
 	options = options || {};
+
 	if (!('files' in options)) {
 		options.files = [];
 	}
-
-	// add the html by default
-	//
-	options.files.push(o.name);
 
 	var self = this,
 		start = new Date(),
@@ -25,12 +29,14 @@ function malta_browser_refresh(o, options) {
 		tplPath = path.dirname(self.tplPath),
 		baseFolder = path.dirname(o.name),
 		fileI = 0,
+		tmp,
 		fileNum,
 		bW = getbWatch();
 	
 	function isRelative(path) {
 		return !(path.match(/^http|\/\//));
 	}
+
 	function digForFiles() {
 		var rex = {
 				js : {
@@ -44,34 +50,58 @@ function malta_browser_refresh(o, options) {
 			},
 			scripts = o.content.match(rex.js.outer),
 			styles = o.content.match(rex.css.outer),
-			i, l, tmp;
+			i, l, tmp,  rel;
 
 		for (i = 0, l = scripts.length; i < l; i++) {
 			tmp = scripts[i].match(rex.js.inner);
-			tmp && isRelative(tmp[1])
-				&& options.files.push(path.resolve(baseFolder, tmp[1]));
+			if (tmp) {
+				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+				rel = isRelative(tmp[1]);
+
+				bW.addFile(
+					rel ? 'relative' : 'net',
+					rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+				);
+			}
 		}
 		for (i = 0, l = styles.length; i < l; i++) {
 			tmp = styles[i].match(rex.css.inner);
-			tmp && isRelative(tmp[1])
-				&& options.files.push(path.resolve(baseFolder, tmp[1]));
+			if (tmp) {
+				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+				rel = isRelative(tmp[1]);
+
+				bW.addFile(
+					rel ? 'relative' : 'net',
+					rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+				);
+			}
 		}
 	}
 
 	try {
-		o.content = o.content.replace(/\<head\>/, '<head><script>' + bWatch.script + '</script>');
+		o.content = o.content.replace(/\<head\>/, '<head><script>' + bWatch.script() + '</script>');
 	} catch (err) {
 		self.doErr(err, o, pluginName);
 	}
+
+	// add the html by default
+	//
+	bW.addFile('relative', path.resolve(baseFolder, o.name));
+
 	if (options.files[0] == "*") {
-		// remove it
-		options.files.splice(0,1);
 		digForFiles();
+	} else {
+		fileNum = options.files.length;
+		for (fileI = 0; fileI < fileNum; fileI++) {
+			
+			tmp = isRelative(options.files[fileI]);
+			bW.addFile(
+				rel ? 'relative' : 'net',
+				rel ? path.resolve(baseFolder, options.files[fileI]) : options.files[fileI]
+			);
+		}
 	}
-	fileNum = options.files.length;
-	for (null; fileI <  fileNum; fileI++) {
-		bW.addFile(options.files[fileI]);
-	}
+
 
 	return function (solve, reject){
 		fs.writeFile(o.name, o.content, function(err) {
