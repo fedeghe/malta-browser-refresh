@@ -102,15 +102,17 @@
 		// relatives
 		for (_path in BW.files.relative) {
 			(function (p){
-				fs.stat(p, function (err, stats) {
-					if (BW.files.relative[p] < getMtime(stats)) {
-						updates.relative[p] = getMtime(stats);
-						console.log('Malta-browser-refresh ['+ ('modified ' + p).white() + ']')
-						res = true;
-					}
-					Irelative++;
-					innerCheck();
-				});	
+				try {
+					fs.stat(p, function (err, stats) {
+						if (BW.files.relative[p] < getMtime(stats)) {
+							updates.relative[p] = getMtime(stats);
+							console.log('Malta-browser-refresh ['+ ('modified ' + p).white() + ']')
+							res = true;
+						}
+						Irelative++;
+						innerCheck();
+					});	
+				} catch(e) {}
 			})(_path);
 		}
 
@@ -119,23 +121,24 @@
 			(function (u) {
 				var parse = url.parse(u),
 					lib = u.match(/https:/) ? https : http;
-
-				lib.request({
-					method: 'HEAD',
-					host: parse.host,
-					port: parse.port || 80,
-					path: parse.pathname
-				}, function (r) {
-					var d = +new Date(r.headers['last-modified']);
-					
-					if (BW.files.net[u] < d){
-						updates.net[u] = d;
-						console.log('Malta-browser-refresh ['+ ('modified ' + u).white() + ']')
-						res = true; 
-					}
-					Inet++;
-					innerCheck();
-				}).end();
+				try {
+					lib.request({
+						method: 'HEAD',
+						host: parse.host,
+						port: parse.port || 80,
+						path: parse.pathname
+					}, function (r) {
+						var d = +new Date(r.headers['last-modified']);
+						
+						if (BW.files.net[u] < d){
+							updates.net[u] = d;
+							console.log('Malta-browser-refresh ['+ ('modified ' + u).white() + ']')
+							res = true; 
+						}
+						Inet++;
+						innerCheck();
+					}).end();
+				} catch(e){}
 				
 			})(_url);
 		}

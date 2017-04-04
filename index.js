@@ -1,6 +1,9 @@
 /**
  * CHANGELOG
  * 
+ * 1.0.7
+ * ignore exceptions on http/s HEAD requests for last-modified header
+ * 
  * 1.0.6
  * the srv port is not fixed to be 1234, then more than one instance can run at once
  * even absolute urls are watched
