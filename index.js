@@ -1,5 +1,9 @@
 /**
  * CHANGELOG
+ * 
+ * 1.0.9
+ * Fixed a bug when * is used in files and no script or link tags are found
+ * 
  * 1.0.8
  * Fixed a bug about absolute paths
  * 
@@ -57,33 +61,36 @@ function malta_browser_refresh(o, options) {
 			styles = o.content.match(rex.css.outer),
 			i, l, tmp,  rel;
 
-		for (i = 0, l = scripts.length; i < l; i++) {
-			tmp = scripts[i].match(rex.js.inner);
-			if (tmp) {
-				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
-				tmp[1] = tmp[1].replace(/^\//, '');
-				rel = isRelative(tmp[1]);
+		if (scripts)
+			for (i = 0, l = scripts.length; i < l; i++) {
+				tmp = scripts[i].match(rex.js.inner);
+				if (tmp) {
+					tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+					tmp[1] = tmp[1].replace(/^\//, '');
+					rel = isRelative(tmp[1]);
 
-				bW.addFile(
-					rel ? 'relative' : 'net',
-					rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
-				);
+					bW.addFile(
+						rel ? 'relative' : 'net',
+						rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+					);
+				}
 			}
-		}
-		for (i = 0, l = styles.length; i < l; i++) {
-			tmp = styles[i].match(rex.css.inner);
-			if (tmp) {
-				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
-				tmp[1] = tmp[1].replace(/^\//, '');
 
-				rel = isRelative(tmp[1]);
+		if (styles)
+			for (i = 0, l = styles.length; i < l; i++) {
+				tmp = styles[i].match(rex.css.inner);
+				if (tmp) {
+					tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+					tmp[1] = tmp[1].replace(/^\//, '');
 
-				bW.addFile(
-					rel ? 'relative' : 'net',
-					rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
-				);
+					rel = isRelative(tmp[1]);
+
+					bW.addFile(
+						rel ? 'relative' : 'net',
+						rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+					);
+				}
 			}
-		}
 	}
 
 	try {
@@ -109,7 +116,6 @@ function malta_browser_refresh(o, options) {
 			);
 		}
 	}
-
 
 	return function (solve, reject){
 		fs.writeFile(o.name, o.content, function(err) {
