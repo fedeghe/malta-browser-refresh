@@ -1,5 +1,7 @@
 /**
  * CHANGELOG
+ * 1.0.8
+ * Fixed a bug about absolute paths
  * 
  * 1.0.7
  * ignore exceptions on http/s HEAD requests for last-modified header
@@ -59,6 +61,7 @@ function malta_browser_refresh(o, options) {
 			tmp = scripts[i].match(rex.js.inner);
 			if (tmp) {
 				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+				tmp[1] = tmp[1].replace(/^\//, '');
 				rel = isRelative(tmp[1]);
 
 				bW.addFile(
@@ -71,6 +74,8 @@ function malta_browser_refresh(o, options) {
 			tmp = styles[i].match(rex.css.inner);
 			if (tmp) {
 				tmp[1] = tmp[1].replace(/^\/\//, 'http://');
+				tmp[1] = tmp[1].replace(/^\//, '');
+
 				rel = isRelative(tmp[1]);
 
 				bW.addFile(
