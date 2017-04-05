@@ -88,7 +88,7 @@
 						lib.request({
 							method: 'HEAD',
 							host: parse.host,
-							port: parse.port || 80,
+							port: parse.port || (lib == http ? 80 : 443),
 							path: parse.pathname
 						}, function(res) {
 							BW.files.net[path] = +new Date(res.headers['last-modified']);
@@ -141,7 +141,7 @@
 					req = lib.request({
 						method: 'HEAD',
 						host: parse.host,
-						port: parse.port || 80,
+						port: parse.port || (lib == http ? 80 : 443),
 						path: parse.pathname,
 						headers : {'Referer' : nextReferer()}
 					}, function (r) {

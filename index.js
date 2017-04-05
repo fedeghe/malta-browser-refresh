@@ -1,5 +1,9 @@
 /**
  * CHANGELOG
+ * 
+  * 1.1.3
+ * Fixed a bug in matching <script> and <link> and useing the right port in case of ssl protocol
+ * 
  * 1.1.2
  * Damn just to fix the readme!!
  * 
@@ -57,11 +61,11 @@ function malta_browser_refresh(o, options) {
 	function digForFiles(type) {
 		var rex = {
 				js : {
-					outer : /<script[\s\S]*?src=\"([^"]*)\"*?>[\s\S]*?<\/script>/gi,
+					outer : /<script[^>]*?src=\"([^"]*)\"[^>]*?>[\s\S]*?<\/script>/gi,
 					inner : /src=\"([^"]*)\"/
 				},
 				css : {
-					outer : /<link[\s\S]*?href=\"([^"]*)\"*?\/?>/gi,
+					outer : /<link[^>]*?href=\"([^"]*)\"[^>]*?\/?>/gi,
 					inner : /href=\"([^"]*)\"/
 				}
 			},
@@ -77,14 +81,14 @@ function malta_browser_refresh(o, options) {
 					tmp[1] = tmp[1].replace(/^\//, '');
 					rel = isRelative(tmp[1]);
 
-					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/))
+					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/)) {
 						bW.addFile(
 							rel ? 'relative' : 'net',
 							rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
 						);
+					}
 				}
 			}
-
 		if (styles)
 			for (i = 0, l = styles.length; i < l; i++) {
 				tmp = styles[i].match(rex.css.inner);
@@ -93,11 +97,12 @@ function malta_browser_refresh(o, options) {
 					tmp[1] = tmp[1].replace(/^\//, '');
 
 					rel = isRelative(tmp[1]);
-					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/))
+					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/)) {
 						bW.addFile(
 							rel ? 'relative' : 'net',
 							rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
 						);
+					}
 				}
 			}
 	}
