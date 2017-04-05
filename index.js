@@ -1,5 +1,8 @@
 /**
  * CHANGELOG
+ * 1.1.2
+ * Damn just to fix the readme!!
+ * 
  * 1.1.1
  * Added "net" and "relative" to files option, added rotated refererr to reduce the risk of being banned from polling
  * 
