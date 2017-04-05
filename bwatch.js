@@ -76,8 +76,13 @@
 			try {
 				switch (type) {
 					case 'relative':
-						stats = fs.statSync(path);
-						BW.files[type][path] = getMtime(stats);
+						if (fs.existsSync(path)) {
+							stats = fs.statSync(path);
+							BW.files[type][path] = getMtime(stats);
+						} else {
+							delete BW.files[type][path];
+						}
+						
 					break;
 
 					case 'net' :
@@ -118,15 +123,20 @@
 		for (_path in BW.files.relative) {
 			(function (p){
 				try {
-					fs.stat(p, function (err, stats) {
-						if (BW.files.relative[p] < getMtime(stats)) {
-							updates.relative[p] = getMtime(stats);
-							console.log('Malta-browser-refresh ['+ ('modified ' + p).white() + ']')
-							res = true;
-						}
+					if (fs.existsSync(p)) {
+						fs.stat(p, function (err, stats) {
+							if (BW.files.relative[p] < getMtime(stats)) {
+								updates.relative[p] = getMtime(stats);
+								console.log('Malta-browser-refresh ['+ ('modified ' + p).white() + ']')
+								res = true;
+							}
+							Irelative++;
+							innerCheck();
+						});
+					} else {
 						Irelative++;
-						innerCheck();
-					});	
+						delete BW.files.relative[p];
+					}
 				} catch(e) {}
 			})(_path);
 		}

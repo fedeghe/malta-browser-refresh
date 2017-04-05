@@ -1,7 +1,10 @@
 /**
  * CHANGELOG
  * 
-  * 1.1.3
+ * 1.1.4
+ * Fixed a bug whenever a file watched is deleted
+ * 
+ * 1.1.3
  * Fixed a bug in matching <script> and <link> and useing the right port in case of ssl protocol
  * 
  * 1.1.2
