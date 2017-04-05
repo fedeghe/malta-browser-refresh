@@ -20,7 +20,20 @@
 				tester.once('close', function() { fn(null, false) })
 				.close()
 			}).listen(port)
-		};
+		},
+		referers = [
+			'https://www.google.com',
+			'http://www.stailamedia.com',
+			'http://www.jmvc.org',
+			'http://www.freakstyle.it'
+		],
+		refererLen = referers.length,
+		refererIndex = 0;
+	
+	function nextReferer() {
+		refererIndex = (++refererIndex) % refererLen;
+		return referers[refererIndex];
+	}
 
 	function Bwatch() {
 		this.files = {
@@ -43,7 +56,6 @@
 		})();
 		function start() {
 			http.createServer(function (request, response) {
-				
 				response.writeHead(200, {
 					'Content-Type': 'application/javascript',
 					'Access-Control-Allow-Origin' : '*'
@@ -100,6 +112,8 @@
 			Nrelative = Object.keys(BW.files.relative).length,
 			Nnet = Object.keys(BW.files.net).length;
 
+
+
 		// relatives
 		for (_path in BW.files.relative) {
 			(function (p){
@@ -121,13 +135,15 @@
 		for (_url in BW.files.net) {
 			(function (u) {
 				var parse = url.parse(u),
-					lib = u.match(/https:/) ? https : http;
+					lib = u.match(/https:/) ? https : http,
+					req;
 				try {
-					lib.request({
+					req = lib.request({
 						method: 'HEAD',
 						host: parse.host,
 						port: parse.port || 80,
-						path: parse.pathname
+						path: parse.pathname,
+						headers : {'Referer' : nextReferer()}
 					}, function (r) {
 						var d = +new Date(r.headers['last-modified']);
 						
@@ -138,7 +154,13 @@
 						}
 						Inet++;
 						innerCheck();
-					}).end();
+					})
+					req.on('error', function(err) {
+						console.log('Malta-browser-refresh [error polling ' + u + ']')
+						console.log('... the file will be ignored'.red());
+						delete BW.files.net[u];
+					})
+					req.end();
 				} catch(e){}
 				
 			})(_url);

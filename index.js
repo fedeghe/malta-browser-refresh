@@ -1,5 +1,8 @@
 /**
  * CHANGELOG
+ * 1.1.1
+ * Added "net" and "relative" to files option, added rotated refererr to reduce the risk of being banned from polling
+ * 
  * 1.1.0
  * Fixed bug about net failure during fisrt stage to get file last-modified (ignore exception)
  * 
@@ -48,7 +51,7 @@ function malta_browser_refresh(o, options) {
 		return !(path.match(/^http|\/\//));
 	}
 
-	function digForFiles() {
+	function digForFiles(type) {
 		var rex = {
 				js : {
 					outer : /<script[\s\S]*?src=\"([^"]*)\"*?>[\s\S]*?<\/script>/gi,
@@ -71,10 +74,11 @@ function malta_browser_refresh(o, options) {
 					tmp[1] = tmp[1].replace(/^\//, '');
 					rel = isRelative(tmp[1]);
 
-					bW.addFile(
-						rel ? 'relative' : 'net',
-						rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
-					);
+					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/))
+						bW.addFile(
+							rel ? 'relative' : 'net',
+							rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+						);
 				}
 			}
 
@@ -86,11 +90,11 @@ function malta_browser_refresh(o, options) {
 					tmp[1] = tmp[1].replace(/^\//, '');
 
 					rel = isRelative(tmp[1]);
-
-					bW.addFile(
-						rel ? 'relative' : 'net',
-						rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
-					);
+					if (rel ? type.match(/relative|\*/) : type.match(/net|\*/))
+						bW.addFile(
+							rel ? 'relative' : 'net',
+							rel ? path.resolve(baseFolder, tmp[1]) : tmp[1]
+						);
 				}
 			}
 	}
@@ -104,17 +108,20 @@ function malta_browser_refresh(o, options) {
 	// add the html by default
 	//
 	bW.addFile('relative', path.resolve(baseFolder, o.name));
-
-	if (options.files[0] == "*") {
-		digForFiles();
+	if (options.files == "*") {
+		digForFiles("*");
+	} else if (options.files == "net") {
+		digForFiles("net");
+	} else if (options.files == "relative") {
+		digForFiles("relative");
 	} else {
 		fileNum = options.files.length;
 		for (fileI = 0; fileI < fileNum; fileI++) {
 			
 			tmp = isRelative(options.files[fileI]);
 			bW.addFile(
-				rel ? 'relative' : 'net',
-				rel ? path.resolve(baseFolder, options.files[fileI]) : options.files[fileI]
+				tmp ? 'relative' : 'net',
+				tmp ? path.resolve(baseFolder, options.files[fileI]) : options.files[fileI]
 			);
 		}
 	}
