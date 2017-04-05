@@ -100,7 +100,10 @@
 						}).end();
 					break;
 				}
-			} catch (e) {}
+			} catch (e) {
+				console.log('Malta-browser-refresh [error]:'.red())
+				console.log(e);
+			}
 		}
 	};
 
@@ -137,7 +140,10 @@
 						Irelative++;
 						delete BW.files.relative[p];
 					}
-				} catch(e) {}
+				} catch(e) {
+					console.log('Malta-browser-refresh [error]:'.red())
+					console.log(e);
+				}
 			})(_path);
 		}
 
@@ -171,7 +177,10 @@
 						delete BW.files.net[u];
 					})
 					req.end();
-				} catch(e){}
+				} catch(e){
+					console.log('Malta-browser-refresh [error]:'.red())
+					console.log(e);
+				}
 				
 			})(_url);
 		}

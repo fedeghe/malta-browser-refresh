@@ -1,6 +1,9 @@
 /**
  * CHANGELOG
  * 
+ * 1.1.5
+ * Better debug in case some files are not found
+ * 
  * 1.1.4
  * Fixed a bug whenever a file watched is deleted
  * 
