@@ -61,28 +61,29 @@
 			host, pathname, port, params = {}, lib;
 
 		if (!(path in this.files[type])) {
+			try {
+				switch (type) {
+					case 'relative':
+						stats = fs.statSync(path);
+						BW.files[type][path] = getMtime(stats);
+					break;
 
-			switch (type) {
-				case 'relative':
-					stats = fs.statSync(path);
-					BW.files[type][path] = getMtime(stats);
-				break;
+					case 'net' :
+						parse = url.parse(path);
 
-				case 'net' :
-					parse = url.parse(path);
+						lib = parse.protocol == 'https:' ? https : http;
 
-					lib = parse.protocol == 'https:' ? https : http;
-
-					lib.request({
-						method: 'HEAD',
-						host: parse.host,
-						port: parse.port || 80,
-						path: parse.pathname
-					}, function(res) {
-						BW.files.net[path] = +new Date(res.headers['last-modified']);
-					}).end();
-				break;
-			}
+						lib.request({
+							method: 'HEAD',
+							host: parse.host,
+							port: parse.port || 80,
+							path: parse.pathname
+						}, function(res) {
+							BW.files.net[path] = +new Date(res.headers['last-modified']);
+						}).end();
+					break;
+				}
+			} catch (e) {}
 		}
 	};
 

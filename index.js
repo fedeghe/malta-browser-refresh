@@ -1,5 +1,7 @@
 /**
  * CHANGELOG
+ * 1.1.0
+ * Fixed bug about net failure during fisrt stage to get file last-modified (ignore exception)
  * 
  * 1.0.9
  * Fixed a bug when * is used in files and no script or link tags are found
