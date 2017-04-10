@@ -210,7 +210,7 @@
 				var s = document.createElement('script'),
 					srvHost = "${srvHost}",
 					srvPort = ${srvPort};
-				s.onload = function () {document.body.removeChild(s);};
+				s.onload = s.onerror = function () {document.body.removeChild(s);};
 				s.src = srvHost + ':' + srvPort + "?" + +new Date;
 				document.body.appendChild(s);
 			}, ${ttr});

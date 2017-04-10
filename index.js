@@ -1,5 +1,8 @@
 /**
  * CHANGELOG
+ *
+ * 1.1.6
+ * on error added to client side polling script
  * 
  * 1.1.5
  * Better debug in case some files are not found
