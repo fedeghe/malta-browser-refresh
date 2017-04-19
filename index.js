@@ -1,5 +1,11 @@
 /**
  * CHANGELOG
+ * 
+ * 1.1.8
+ * small fix whenever a watched html runs without malta running
+ * 
+ * 1.1.7
+ * if offline a message is printed out whenever a net file is involved (instead of crashing)
  *
  * 1.1.6
  * on error added to client side polling script

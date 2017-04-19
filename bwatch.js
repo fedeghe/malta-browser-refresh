@@ -206,11 +206,16 @@
 
 	Bwatch.script = function () {
 		return `(function () {
-			window.setInterval(function () {
+			var t = window.setInterval(function () {
 				var s = document.createElement('script'),
 					srvHost = "${srvHost}",
 					srvPort = ${srvPort};
-				s.onload = s.onerror = function () {document.body.removeChild(s);};
+				s.onload = function () {document.body.removeChild(s);};
+				s.onerror = function () {
+					document.body.removeChild(s);
+					console.log('Looks like Malta is not running')
+					window.clearInterval(t);
+				};
 				s.src = srvHost + ':' + srvPort + "?" + +new Date;
 				document.body.appendChild(s);
 			}, ${ttr});
