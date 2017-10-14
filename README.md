@@ -9,9 +9,9 @@ This plugin can be used on: **.html** files and even on **.md** and **.pug** fil
 
 Options :   
 	- **files** : array containing te list of the files that whenever modified should trigger the browser refresh (the template html is included automatically); it is possible even to specify three special strings:  
-	- "*" to include all relative elements  
-	- "relative" to include only relative elements  
-	- "net" to include only elements coming from absolute full urls  
+	- "*" to include all relevant elements  
+	- "relative" to include only relative relevant elements  
+	- "net" to include only relevant elements coming from absolute full urls  
 
 Since the polling of request for modifications happens every second it can happen that whenever 'net' or '*' is used, at some point, one request fails. This means that the target server has good reasons to ban all nearly requests and so the plugin will remove that file from the list.  
 
