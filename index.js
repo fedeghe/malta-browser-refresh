@@ -123,7 +123,7 @@ function malta_browser_refresh(o, options) {
 	}
 
 	try {
-		o.content = o.content.replace(/\<head\>/, '<head><script>' + bWatch.script() + '</script>');
+		o.content = o.content.replace(/\<\/body\>/, '<script>' + bWatch.script() + '</script></body>');
 	} catch (err) {
 		self.doErr(err, o, pluginName);
 	}
