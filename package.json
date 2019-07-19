@@ -1,27 +1,27 @@
 {
-  "name": "malta-browser-refresh",
-  "version": "1.2.2",
-  "description": "malta plugin to refresh automatically the browser when relevant files are updated",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fedeghe/malta-browser-refresh.git"
-  },
-  "keywords": [
-    "malta",
-    "malta plugin",
-    "malta js browser refresh"
-  ],
-  "author": "Federico Ghedina <federico.ghedina@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/fedeghe/malta-browser-refresh/issues"
-  },
-  "homepage": "https://github.com/fedeghe/malta-browser-refresh#readme",
-  "dependencies": {
-    "malta": ">=3.8.14"
-  },
-  "main": "index.js"
+    "name": "malta-browser-refresh",
+    "version": "1.2.2",
+    "description": "malta plugin to refresh automatically the browser when relevant files are updated",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fedeghe/malta-browser-refresh.git"
+    },
+    "keywords": [
+        "malta",
+        "malta plugin",
+        "malta js browser refresh"
+    ],
+    "author": "Federico Ghedina <fedeghe@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/fedeghe/malta-browser-refresh/issues"
+    },
+    "homepage": "https://github.com/fedeghe/malta-browser-refresh#readme",
+    "dependencies": {
+        "malta": ">=3.8.14"
+    },
+    "main": "index.js"
 }
