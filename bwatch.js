@@ -118,9 +118,7 @@
 			Irelative = 0,
 			Inet = 0,
 			Nrelative = Object.keys(BW.files.relative).length,
-			Nnet = Object.keys(BW.files.net).length;
-
-
+            Nnet = Object.keys(BW.files.net).length;
 
 		// relatives
 		for (_path in BW.files.relative) {

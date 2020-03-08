@@ -1,6 +1,5 @@
 ---
 [![npm version](https://badge.fury.io/js/malta-browser-refresh.svg)](http://badge.fury.io/js/malta-browser-refresh)
-[![Dependencies](https://david-dm.org/fedeghe/malta-browser-refresh.svg)](https://david-dm.org/fedeghe/malta-browser-refresh)
 [![npm downloads](https://img.shields.io/npm/dt/malta-browser-refresh.svg)](https://npmjs.org/package/malta-browser-refresh)
 [![npm downloads](https://img.shields.io/npm/dm/malta-browser-refresh.svg)](https://npmjs.org/package/malta-browser-refresh)  
 ---  
