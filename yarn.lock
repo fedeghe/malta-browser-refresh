@@ -2,3 +2,7 @@
 # yarn lockfile v1
 
 
+malta@4.1.19:
+  version "4.1.19"
+  resolved "https://registry.yarnpkg.com/malta/-/malta-4.1.19.tgz#0213af7afc66245f75688dd8a931e9f550e7dd8f"
+  integrity sha512-EQT2oG1cKzhPJNBEYvw4UJjY8UdejVpf5WucwarOENKB4hT1A2pD/OzAvX/mlQ9c+OwWndmqjmUHYxvrKBc8kA==

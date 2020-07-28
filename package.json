@@ -20,5 +20,8 @@
         "url": "https://github.com/fedeghe/malta-browser-refresh/issues"
     },
     "homepage": "https://github.com/fedeghe/malta-browser-refresh#readme",
-    "main": "index.js"
+    "main": "index.js",
+    "dependencies": {
+        "malta": "4.1.19"
+    }
 }
