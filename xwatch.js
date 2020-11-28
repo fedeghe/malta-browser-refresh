@@ -60,7 +60,7 @@ const WebSocket = require('ws'),
                 console.log('created; ', +new Date)
                 wss = new WebSocket.Server({port: srvPort});
                 wss.on('connection', function connection(ws) {
-                    inst.setChangeListener(function (res) {
+                    inst.setChangeWatcher(function (res) {
                         wss.clients.forEach(function each(client) {
                             if (client.readyState === WebSocket.OPEN) {
                               client.send(JSON.stringify({reload: true}));
@@ -82,6 +82,13 @@ function Xwatch(mode) {
     this.mode = mode;
     this.files = {};
 }
+Xwatch.prototype.setChangeWatcher = function (cb) {
+    Object.keys(this.files).forEach(file => {
+        fs.watch(file, () => {
+            cb(true)
+        })
+    })
+};
 Xwatch.prototype.setChangeListener = function (cb) {
     Object.keys(this.files).forEach(file => {
         let stats = fs.statSync(file),
