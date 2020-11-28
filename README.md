@@ -6,24 +6,21 @@
 
 This plugin can be used on: **.html** files and even on **.md** and **.pug** files after using the right plugin
 
-Options :   
-	- **files** : array containing te list of the files that whenever modified should trigger the browser refresh (the template html is included automatically); it is possible even to specify three special strings:  
-	- "*" to include all relevant elements  
-	- "relative" to include only relative relevant elements  
-	- "net" to include only relevant elements coming from absolute full urls  
+It observers `js` and `css` files with a relative path and refreshes the browser automatically when those changes
 
-Since the polling of request for modifications happens every second it can happen that whenever 'net' or '*' is used, at some point, one request fails. This means that the target server has good reasons to ban all nearly requests and so the plugin will remove that file from the list.  
+Options :   
+	- **mode** : decide use the `xhr` mode or the `ws` mode; default is `ws`  
 
  **warning** : use this plugin only for development purposes
 
 
 Sample usage:  
 ```
-malta app/source/index.html public -plugins=malta-browser-refresh[files:\"relative\"]
+malta app/source/index.html public -plugins=malta-browser-refresh[mode:\"xhr\"]
 ```
 or in the .json file :
 ```
-"app/source/index.html" : "public -plugins=malta-browser-refresh[files:[\"js/script.js\",\"css/style.css\"]]"
+"app/source/index.html" : "public -plugins=malta-browser-refresh"
 ```
 or in a script : 
 ``` js
@@ -31,7 +28,7 @@ var Malta = require('malta');
 Malta.get().check([
     'app/source/index.html',
     'public',
-    '-plugins=malta-browser-refresh[files:\"*\"]',
+    '-plugins=malta-browser-refresh',
     '-options=showPath:false,watchInterval:500,verbose:0'
     ]).start(function (o) {
         var s = this;
