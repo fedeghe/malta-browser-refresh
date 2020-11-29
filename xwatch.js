@@ -57,7 +57,6 @@ const WebSocket = require('ws'),
         ws: function start() {
             const inst = this;
             if (!wss) {
-                console.log('STARTING: ' + new Date)
                 wss = new WebSocket.Server({port: srvPort});
                 wss.on('connection', function connection(ws) {
                     inst.setChangeWatcher(function (res) {
