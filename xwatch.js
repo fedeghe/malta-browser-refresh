@@ -57,6 +57,7 @@ const WebSocket = require('ws'),
         ws: function start() {
             const inst = this;
             if (!wss) {
+                console.log('STARTING: ' + new Date)
                 wss = new WebSocket.Server({port: srvPort});
                 wss.on('connection', function connection(ws) {
                     inst.setChangeWatcher(function (res) {
@@ -80,20 +81,19 @@ let wss = null,         // WS
 function Xwatch(mode) {
     this.mode = mode;
     this.files = {};
+    this.wsInterval = null;
 }
+
 Xwatch.prototype.setChangeWatcher = function (cb) {
-    Object.keys(this.files).forEach(file => {
-        fs.watch(file, () => {
-            cb(true)
-        })
-    })
+    clearInterval(this.wsInterval)
+    this.wsInterval = setInterval(() => this.setChangeListener(cb), ttr)
 };
+
 Xwatch.prototype.setChangeListener = function (cb) {
     Object.keys(this.files).forEach(file => {
         let stats = fs.statSync(file),
             newTime = getMtime(stats);
         if (newTime > this.files[file]) {
-
             // this allows other client to still find
             // the old time for a file for a while
             setTimeout(() => {
@@ -103,6 +103,7 @@ Xwatch.prototype.setChangeListener = function (cb) {
         }
     })
 };
+
 Xwatch.prototype.start = function () {
     const BW = this,
         isPortTaken = (port, fn) => {
@@ -131,7 +132,7 @@ Xwatch.prototype.start = function () {
 
 Xwatch.prototype.getScript = function () {
     return scripts[this.mode];
-}
+};
 
 Xwatch.prototype.addFile = function (filePath) {   
     if (!(filePath in this.files)) {
@@ -148,6 +149,5 @@ Xwatch.prototype.addFile = function (filePath) {
         }, 100)
     }
 };
-
 
 module.exports = Xwatch;

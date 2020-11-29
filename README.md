@@ -6,7 +6,7 @@
 
 This plugin can be used on: **.html** files and even on **.md** and **.pug** files after using the right plugin
 
-It observers `js` and `css` files with a relative path and refreshes the browser automatically when those changes
+It observers `js` and `css` files with a relative path and refreshes the browser automatically when one of those changes.
 
 Options :   
 	- **mode** : decide use the `xhr` mode or the `ws` mode; default is `ws`  
