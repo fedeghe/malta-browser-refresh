@@ -1,3 +1,5 @@
+let srvPort = 2345;
+
 const WebSocket = require('ws'),
     http = require('http'),
     fs = require('fs'),
@@ -5,10 +7,9 @@ const WebSocket = require('ws'),
     getMtime = function(stat_response) {
         return +stat_response.mtime;
     },
-    srvHost = '127.0.0.1',
-    srvPort = 2345,
+    srvHost = '127.0.0.1',    
     scripts = {
-        xhr: `(function () {
+        xhr: () => `(function () {
     var t = window.setInterval(function () {
         var s = document.createElement('script'),
             srvHost = "http://${srvHost}",
@@ -23,7 +24,7 @@ const WebSocket = require('ws'),
         document.body.appendChild(s);
     }, ${ttr});
 })()`,
-        ws: `(function () {
+        ws:  () => `(function () {
     var socket = new WebSocket('ws://${srvHost}:${srvPort}');
 
     socket.addEventListener('message', function (event) {
@@ -130,7 +131,7 @@ Xwatch.prototype.start = function () {
 };
 
 Xwatch.prototype.getScript = function () {
-    return scripts[this.mode];
+    return scripts[this.mode]();
 };
 
 Xwatch.prototype.addFile = function (filePath) {   
